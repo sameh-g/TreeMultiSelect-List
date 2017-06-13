@@ -380,20 +380,21 @@ Tree.prototype.createAst = function (options) {
     var optionName = option.text;
     var optionDescription = option.getAttribute('data-description');
     var optionIndex = parseInt(option.getAttribute('data-index'));
- 
     var optionObj = Ast.createItem(id, optionValue, optionName, optionDescription, optionIndex, section,sectionRoot);
    
-   // console.log("section obj",optionObj)
-  //  console.log("optionSection",optionSection)
+    // console.log("section obj",optionObj)
+    //  console.log("optionSection",optionSection)
 
     if (optionIndex) {
       self.keysToAdd[optionIndex] = id;
-    } else if (option.hasAttribute('selected')) {
+    }
+     else if (option.hasAttribute('selected')) {
       keysToAddAtEnd.push(id);
     }
+
     self.selectOptions[id] = optionObj;
-  //  self.selectSections[id] = optionSection;
- console.log("select options",optionObj)
+    //self.selectSections[id] = optionSection;
+    console.log("select options",optionObj)
     sectionId++;
     ++id;
     
@@ -495,7 +496,7 @@ Tree.prototype.handleSectionCheckboxMarkings = function () {
       Util.array.uniq(self.keysToAdd);
     } else {
       var _self$keysToRemove;
-
+console.log("uncheckedddd");
       (_self$keysToRemove = self.keysToRemove).push.apply(_self$keysToRemove, keys);
       Util.array.uniq(self.keysToRemove);
     }
@@ -700,10 +701,11 @@ if(nodeItems!=undefined)
          selectionNode.getElementsByTagName('INPUT')[0].checked = false; //Should loop to uncheck all data.. 
          console.log("itemssss")
         }
-      //   console.log("Sectionsssss",self.selectSections)
-      // self.selectSections[nodename]=null;
+         console.log("Sectionsssss",this.selectSections)
+       this.selectSections[nodename]=null;
       node.parentNode.removeChild(node);
-       
+      console.log("Sectionsssss after remove",this.selectSections)
+
       }
 }
        else 
@@ -818,11 +820,7 @@ rootIncludeIndex=0;
     var optionsRemoved = this.keysToRemove.map(function (key) {
       return _this.selectOptions[key];
     });
-    var optionsSelected = this.selectSections.map(function (key) {
-      return _this.selectSections;
-    });
-    self.selectSections
-    this.params.onChange(optionsSelected, optionsAdded, optionsRemoved,optionsSelected);
+    this.params.onChange(optionsSelected, optionsAdded, optionsRemoved,this.selectSections);
   }
 
   this.keysToRemove = [];
