@@ -1,0 +1,69 @@
+<html>
+
+<head>
+    <link rel="icon" type="image/ico" href="/img/favicon.ico">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="title" content="jQuery Tree Multiselect - Patosai ">
+    <meta name="description" content="The personal website of Patrick Tsai">
+</head>
+
+<body>
+
+    <div class="wrapper" style="overflow-x: hidden ;height: 400px;width: 800px">
+
+
+
+       <select id="demo2" style="margin: 0px auto 1em; display: block;" multiple="multiple">
+        <option value="APAC" data-section="Global" data-root="Global" data-description="Descv" data-key="0">APAC</option>
+        <option value="strawberry" data-section="Global" data-root="Global" data-description="Descv2" data-key="1">EAME</option>
+        <option value="AFRICA" data-section="Global/AFRICA" data-root="AFRICA" data-key="2">EGYPT</option>
+        <option value="milk tea" data-section="Global/AFRICA" data-root="AFRICA" data-key="3">Sudan</option>
+        <option value="New York" data-section="Global/USA" data-root="USA" data-key="4">New York</option>
+        <option value="WA" data-section="Global/USA"     data-root="USA"  data-key="5">WA</option>
+        <option value="China" data-section="Global/ASIA" data-root="ASIA"  data-key="6">China</option>
+        <option value="Japan" data-section="Global/ASIA" data-root="ASIA" data-key="7">Japan</option>
+        <option value="Japan" data-section="Global/ASIA" data-root="ASIA"  data-key="7">Japan</option>
+        <option value="China" data-section="Global/ASIA/Data" data-root="Data" data-key="6">China</option>
+        <option value="Japan" data-section="Global/ASIA" data-root="ASIA"  data-key="7">Japan</option>
+        <option value="Japan" data-section="Global/ASIA" data-root="ASIA"  data-key="7">Japan</option>
+        </select>
+
+
+
+
+
+   </div>
+            </div>
+            <footer>
+                <p class="center">© Patrick Tsai, 2014 - 2017</p>
+            </footer>
+            <link rel="stylesheet" href="/css/style.css">
+            <script async="" src="https://www.google-analytics.com/analytics.js"></script>
+
+            <script type="text/javascript" src="/vendor/js/prism.js"></script>
+            <link rel="stylesheet" href="/vendor/css/prism.css">
+            <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+                crossorigin="anonymous"></script>
+            <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+            <script type="text/javascript" src="js/jquery.tree-multiselect.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("select#demo2").treeMultiselect({ searchable: true, searchParams: ['section', 'text'], 
+                     onChange: treeOnChange ,enableSelectAll:true,allowBatchSelection:true,showSectionOnSelected:true});
+                    
+                });
+
+                function treeOnChange(allSelectedItems, addedItems, removedItems) {
+                    console.log("something changed!",allSelectedItems,addedItems,removedItems);
+                }
+
+               function treeOnChange(allSelectedItems, addedItems, removedItems,optionsSelected) {
+                   console.log("something changedaddddeddd!",allSelectedItems);
+                }
+
+            </script>
+            <link rel="stylesheet" href="css/jquery.tree-multiselect.css">
+</body>
+
+</html>
