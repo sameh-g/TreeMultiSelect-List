@@ -296,6 +296,7 @@ var UiBuilder = require('./ui-builder');
 var Util = require('./utility');
 
 function Tree(id, $originalSelect, params) {
+  console.log("tree id",id)
   this.id = id;
   this.$originalSelect = $originalSelect;
 
@@ -304,9 +305,12 @@ function Tree(id, $originalSelect, params) {
   this.$selectedContainer = this.uiBuilder.$selectedContainer;
 
   this.params = params;
-
+  this.selectAll=false;
   this.selectOptions = [];
   this.selectSections = [];
+  this.selectedView = [];
+
+  this.sections=[];
   // data-key is key, provides DOM node
   this.selectNodes = {};
   this.sectionNodes = {};
@@ -370,11 +374,11 @@ Tree.prototype.createAst = function (options) {
   options.each(function () {
     var option = this;
     option.setAttribute('data-key', id);
-
+   // console.log("idOO",id)
     var section = option.getAttribute('data-section');
 
     var sectionRoot = option.getAttribute('data-root');
-    console.log("sectionRoot",sectionRoot)
+    // console.log("sectionRoot",sectionRoot)
 
     var optionValue = option.value;
     var optionName = option.text;
@@ -384,6 +388,7 @@ Tree.prototype.createAst = function (options) {
    
     // console.log("section obj",optionObj)
     //  console.log("optionSection",optionSection)
+      // console.log("id",id)
 
     if (optionIndex) {
       self.keysToAdd[optionIndex] = id;
@@ -394,19 +399,22 @@ Tree.prototype.createAst = function (options) {
 
     self.selectOptions[id] = optionObj;
     //self.selectSections[id] = optionSection;
-    console.log("select options",optionObj)
+    // console.log("select options",optionObj)
     sectionId++;
     ++id;
     
     var lookupPosition = lookup;
     var sectionParts = section && section.length > 0 ? section.split(self.params.sectionDelimiter) : [];
+ //   console.log("sectionsssss",sectionParts)
     for (var ii = 0; ii < sectionParts.length; ++ii) {
       var sectionPart = sectionParts[ii];
       if (lookupPosition.children[sectionPart]) {
         lookupPosition = lookupPosition.children[sectionPart];
+                // self.sections[ii]=sectionPart;//Sgeorge
+
       } else {
         var newSection = Ast.createSection(sectionPart);
-       // console.log("section create section",newSection)
+        // self.sections[ii]=newSection;//Sgeorge
 
         lookupPosition.arr.push(newSection);
         var newLookupNode = Ast.createLookup(newSection.items);
@@ -414,14 +422,18 @@ Tree.prototype.createAst = function (options) {
         lookupPosition = newLookupNode;
       }
     }
-          //  console.log("section create section",optionObj)
+          // console.log("section create section",optionObj)
 
     lookupPosition.arr.push(optionObj);
   });
+
+  
   Util.array.removeFalseyExceptZero(this.keysToAdd);
   (_keysToAdd = this.keysToAdd).push.apply(_keysToAdd, keysToAddAtEnd);
   Util.array.uniq(this.keysToAdd);
   return data;
+
+
 };
 
 Tree.prototype.generateHtml = function (astArr, parentNode, sectionIdStart) {
@@ -487,6 +499,7 @@ Tree.prototype.handleSectionCheckboxMarkings = function () {
     self.selectSections[$data[0].innerText]=optionObj;
     
     console.log("handle sections",self.selectSections)
+    // console.log("all sections",self.sections)
 
 
     if (this.checked) {
@@ -602,6 +615,7 @@ Tree.prototype.createSelectAllButtons = function (parentNode) {
     for (var ii = 0; ii < self.selectOptions.length; ++ii) {
       self.keysToAdd.push(ii);
     }
+    this.selectAll=true;
     Util.array.uniq(self.keysToAdd);
     self.render();
   });
@@ -611,6 +625,7 @@ Tree.prototype.createSelectAllButtons = function (parentNode) {
 
     (_self$keysToRemove2 = self.keysToRemove).push.apply(_self$keysToRemove2, _toConsumableArray(self.selectedKeys));
     Util.array.uniq(self.keysToRemove);
+     this.selectAll=false;
     self.render();
   });
 };
@@ -619,9 +634,33 @@ Tree.prototype.armRemoveSelectedOnClick = function () {
   var self = this;
   this.$selectedContainer.on('click', 'span.remove-selected', function () {
     var parentNode = this.parentNode;
+    var  parentNodeItems=parentNode.getAttribute('data-items')
+
+    if(parentNodeItems!=undefined)
+    var nodeItems = parentNodeItems.split(",");
+    
+    if(nodeItems!=undefined)
+    {
+
+for(var cc=0;cc<nodeItems.length;cc++)
+{
+       self.keysToRemove.push(nodeItems[cc]);
+       self.render();
+}
+    }
+
+    else 
+    {
+
+    console.log("remove selected ",parentNode)
+
+    //Sgeorge 
     var key = Util.getKey(parentNode);
     self.keysToRemove.push(key);
     self.render();
+    }
+
+
   });
 };
 
@@ -702,18 +741,22 @@ if(nodeItems!=undefined)
          console.log("itemssss")
         }
          console.log("Sectionsssss",this.selectSections)
-       this.selectSections[nodename]=null;
-      node.parentNode.removeChild(node);
-      console.log("Sectionsssss after remove",this.selectSections)
+         console.log("node**",node,selectionNode,node)
+         this.selectSections[nodename]=null;
+         
+         node.remove()
+
+
+     // console.log("Sectionsssss after remove",this.selectSections)
 
       }
 }
        else 
        {
-       console.log("node Items",nodeItems)
-       // slightly more verbose than node.remove(), but more browser support
+        console.log("node Items",nodeItems)
+        // slightly more verbose than node.remove(), but more browser support
         node.parentNode.removeChild(node);
-       this.selectedNodes[this.keysToRemove[ii]] = null;
+        this.selectedNodes[this.keysToRemove[ii]] = null;
        }
     
     }
@@ -721,6 +764,7 @@ if(nodeItems!=undefined)
     //uncheck these checkboxes
     var selectionNode = this.selectNodes[this.keysToRemove[ii]];
     selectionNode.getElementsByTagName('INPUT')[0].checked = false; //Should loop to uncheck all data.. 
+     console.log("selected nodes ",this.selectionNode)
 
  }
 

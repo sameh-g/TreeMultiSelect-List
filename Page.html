@@ -15,18 +15,38 @@
 
 
        <select id="demo2" style="margin: 0px auto 1em; display: block;" multiple="multiple">
-        <option value="APAC" data-section="Global" data-root="Global" data-description="Descv" data-key="0">APAC</option>
-        <option value="strawberry" data-section="Global" data-root="Global" data-description="Descv2" data-key="1">EAME</option>
-        <option value="AFRICA" data-section="Global/AFRICA" data-root="AFRICA" data-key="2">EGYPT</option>
-        <option value="milk tea" data-section="Global/AFRICA" data-root="AFRICA" data-key="3">Sudan</option>
-        <option value="New York" data-section="Global/USA" data-root="USA" data-key="4">New York</option>
-        <option value="WA" data-section="Global/USA"     data-root="USA"  data-key="5">WA</option>
-        <option value="China" data-section="Global/ASIA" data-root="ASIA"  data-key="6">China</option>
-        <option value="Japan" data-section="Global/ASIA" data-root="ASIA" data-key="7">Japan</option>
-        <option value="Japan" data-section="Global/ASIA" data-root="ASIA"  data-key="7">Japan</option>
-        <option value="China" data-section="Global/ASIA/Data" data-root="Data" data-key="6">China</option>
-        <option value="Japan" data-section="Global/ASIA" data-root="ASIA"  data-key="7">Japan</option>
-        <option value="Japan" data-section="Global/ASIA" data-root="ASIA"  data-key="7">Japan</option>
+       
+        <option value="APAC" data-section="Global/LATAM/NorthenLatinAmerica"  data-root="Global"  data-key="0">EL SALVADOR</option>
+        <option value="APAC" data-section="Global/LATAM/NorthenLatinAmerica"  data-root="Global"  data-key="0">HONDURAS</option>
+        <option value="APAC" data-section="Global/LATAM/NorthenLatinAmerica"  data-root="Global"  data-key="0">VENEZUELA</option>
+        <option value="APAC" data-section="Global/LATAM/NorthenLatinAmerica"  data-root="Global"  data-key="0">DOMINICAN REPUBLIC</option>
+
+        <option value="APAC" data-section="Global/LATAM/SouthLatinAmerica"  data-root="Global"  data-key="0">BOLIVIA </option>
+        <option value="APAC" data-section="Global/LATAM/SouthLatinAmerica"  data-root="Global"  data-key="0">URUGUAY</option>
+        <option value="APAC" data-section="Global/LATAM/SouthLatinAmerica"  data-root="Global"  data-key="0">PARAGUAY</option>
+        <option value="APAC" data-section="Global/LATAM/SouthLatinAmerica"  data-root="Global"  data-key="0">ARGENTINA</option>
+
+        <option value="AFRICA" data-section="Global/APAC/SouthAsia" data-root="AFRICA" data-key="2">BANGLADESH</option>
+        <option value="AFRICA" data-section="Global/APAC/SouthAsia" data-root="AFRICA" data-key="2">INDIA</option>
+        <option value="AFRICA" data-section="Global/APAC/SouthAsia" data-root="AFRICA" data-key="2">SRILANKA</option>
+        <option value="AFRICA" data-section="Global/APAC/SouthAsia" data-root="AFRICA" data-key="2">PAKISTAN</option>
+        
+        
+        <option value="AFRICA" data-section="Global/NA/USA" data-root="AFRICA" data-key="2">UNITEDSTATES</option>
+       
+        <option value="AFRICA" data-section="Global/NA/TBD-NA" data-root="AFRICA" data-key="2">PUERTORICO</option>
+
+        <option value="AFRICA" data-section="Global/NA/Canada" data-root="AFRICA" data-key="2">CANADA</option>
+
+
+
+        <option value="AFRICA" data-section="Global/EAME/France" data-root="AFRICA" data-key="2">FRANCE</option>
+
+         <option value="AFRICA" data-section="Global/EAME/Italy " data-root="AFRICA" data-key="2">ITALY</option>
+
+
+        
+
         </select>
 
 
@@ -50,7 +70,7 @@
             <script type="text/javascript">
                 $(document).ready(function () {
                     $("select#demo2").treeMultiselect({ searchable: true, searchParams: ['section', 'text'], 
-                     onChange: treeOnChange ,enableSelectAll:true,allowBatchSelection:true,showSectionOnSelected:true});
+                     onChange: treeOnChange ,enableSelectAll:false,allowBatchSelection:true,showSectionOnSelected:true});
                     
                 });
 
@@ -59,7 +79,46 @@
                 }
 
                function treeOnChange(allSelectedItems, addedItems, removedItems,selectSections) {
+                 //   manageSelection(selectSections,allSelectedItems)
+
+
                    console.log("something changedaddddeddd!",selectSections,allSelectedItems);
+                }
+
+                 function manageSelection(selectSections,allSelectedItems) {
+
+
+                var dataArray = new Array;
+                    for(var o in selectSections) {
+                    dataArray.push(selectSections[o]);
+                       }
+
+                     if(dataArray!=undefined)
+                     { 
+
+                         for(var f=0;f<=dataArray.length;f++)
+                         {                                           
+ 
+                               if(allSelectedItems!=undefined)
+                               {
+                              if(dataArray[f].items!=undefined)
+                              {
+                               
+                               for(var x =0;x<dataArray[f].items.length;x++)
+                               {
+                             for(var a=0;a<allSelectedItems.length;a++)
+                             {  if(allSelectedItems[a]!=null)
+                                 {
+                                 if(dataArray[f].items[x]==allSelectedItems[a].id)
+                                    allSelectedItems[a]=null;
+                             }
+                             }
+
+                               }
+                               }
+                               }
+                         }   
+                     }
                 }
 
             </script>
