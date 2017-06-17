@@ -524,14 +524,14 @@ for (var section in selectionValues)
     if(this.checkItemsExist(selectedItems,selectionValues[section][s].items))
     {
       this.selectedRoots[selectionValues[section][s].name]="selected";
-      console.log("section............",section,"name",selectionValues[section][s].name)
+      console.log("section............",this.selectedRoots,section,"name",selectionValues[section][s].name)
     }
 
    }
   }
 }
-
-console.log("nodeSelected..",selectedItems,selectionValues)
+this.checkGetParentRoots(this.selectedRoots,selectionValues)
+console.log("nodeSelected..",selectedItems,selectionValues,this.selectedRoots)
 
 };
 
@@ -551,6 +551,48 @@ Tree.prototype.checkItemsExist=function (array,items)
 }
 
   return inRoot;
+   
+};
+
+Tree.prototype.checkGetParentRoots=function (roots,parents)
+{
+  if(parents!=undefined)
+  {
+
+for (var section in parents) 
+{
+
+if(parents[section]!=undefined)
+{
+       var rootExists=0;
+
+   for(var vv=0;vv<parents[section].length;vv++)
+   {
+       for (var root in roots) 
+{
+     if(parents[section][vv].name==root && roots[root]=="selected")
+     {
+     rootExists++;
+console.log(rootExists);
+     }
+
+}
+if(rootExists==parents[section].length)
+{
+  console.log("found")
+  this.selectedRoots[section]="selected";
+   for(var vv=0;vv<parents[section].length;vv++)
+   {
+     var name=parents[section][vv].name;
+     this.selectedRoots[name]="unselected";
+   }
+   }
+
+}}
+
+}
+  }
+
    
 };
 
@@ -954,7 +996,14 @@ if(nodeItems!=undefined)
 
     this.selectedKeys.push(key);
     this.checkNodesAreInRoot(key)
-    
+    console.log(this.selectedRoots,"****roots***",this.selectedNodes)
+//Should try to remove from here.. 
+    var node = this.selectedNodes[5];
+
+if(node!=undefined)
+    node.parentNode.removeChild(node);
+
+console.log(this.keysToRemove,this.selectedKeys)
     if(!rootNode)
     var selectedNode = Util.dom.createSelected(option,"", this.params.freeze, this.params.showSectionOnSelected,rootIncluded,itemsKeys);
     else 
@@ -970,7 +1019,6 @@ if(nodeItems!=undefined)
       else 
       {
             var selectedNode = Util.dom.createSelected(option,"", this.params.freeze, this.params.showSectionOnSelected,rootIncluded,itemsKeys);
-
       }
 
        }
@@ -1267,7 +1315,7 @@ if(rootIncluded )
    {
     var node = exports.createNode('div', {
     class: 'item',
-    'data-key': option.id,
+    'data-key': rootName,
     'data-value': rootName,
     'data-root': rootName,
      text: rootName ,
