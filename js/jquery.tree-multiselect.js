@@ -914,12 +914,17 @@ Tree.prototype.render = function (noCallbacks) {
   //Remove Root Node
   for(var rr=0;rr<this.rootsToRemove.length;rr++)
   {          var _node = this.selectedNodes[this.rootsToRemove[0]];
+       var items=_node.getAttribute('data-items');
+      var nodename=_node.getAttribute('data-root');
+      var description=_node.getAttribute('data-description');
+      
+      this.selectedRoots[nodename]="unselected"
+      this.selectSections[nodename]=null;
 
-
+      console.log("ndoeitems",items)
             if (_node) {
                   _node.parentNode.removeChild(_node);
             }
-
   }
   for (var ii = 0; ii < this.keysToRemove.length; ++ii) {
     // remove the selected divs
