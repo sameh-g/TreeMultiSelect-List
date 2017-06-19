@@ -2,7 +2,7 @@
 /* jQuery Tree Multiselect v2.2.1 | (c) Patrick Tsai | MIT Licensed */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
-//#sgeorge
+//# 
 exports.createLookup = function (arr) {
   return {
     arr: arr,
@@ -10,7 +10,7 @@ exports.createLookup = function (arr) {
   };
 };
 
-//#sgeorge
+//# 
 exports.createSection = function (name) {
   return {
     type: 'section',
@@ -31,7 +31,7 @@ exports.getSectionItems = function (section) {
 
   return section.items;
 };
-//#sgeorge
+//# 
 exports.createItem = function (id, value, text, description, initialIndex, section) {
   return {
     type: 'item',
@@ -43,7 +43,7 @@ exports.createItem = function (id, value, text, description, initialIndex, secti
     section: section
   };
 };
-//#sgeorge
+//# 
 exports.createSectionData = function ( id,items,section) {
   return {
     id:id,
@@ -63,14 +63,14 @@ var Tree = require('./tree');
 
 var uniqueId = 0;
 
-//#sgeorge
+//# 
 var treeMultiselect = function treeMultiselect(opts) {
   var _this = this;
 
   var options = mergeDefaultOptions(opts);
   this.each(function () {
     var $originalSelect = _this;
-     $originalSelect.attr('multiple', '').css('display', 'none');//Display the dropdownList //SGeorge
+     $originalSelect.attr('multiple', '').css('display', 'none');//Display the dropdownList // 
 
     var tree = new Tree(uniqueId, $originalSelect, options);
     tree.initialize();
@@ -424,16 +424,16 @@ Tree.prototype.createAst = function (options) {
       var sectionPart = sectionParts[ii];
       if (lookupPosition.children[sectionPart]) {
         lookupPosition = lookupPosition.children[sectionPart];
-         self.sections[sectionPart]=sectionPart;//Sgeorge
+         self.sections[sectionPart]=sectionPart;// 
       } else {
         var newSection = Ast.createSection(sectionPart);
-        // self.sections[ii]=newSection;//Sgeorge
+        // self.sections[ii]=newSection;// 
 
         lookupPosition.arr.push(newSection);
         var newLookupNode = Ast.createLookup(newSection.items);
         lookupPosition.children[sectionPart] = newLookupNode;
         lookupPosition = newLookupNode;
-        self.sections[sectionPart]=sectionPart;//Sgeorge
+        self.sections[sectionPart]=sectionPart;// 
 
       }
     }
@@ -762,14 +762,14 @@ Tree.prototype.getRootItems=function (rootName)
     return items ;
 };
 
-//#sgeorge
+//# 
 Tree.prototype.handleSectionCheckboxMarkings = function () {
   var self = this;
   this.$selectionContainer.on('click', 'input.section[type=checkbox]', function () {
     var $section = jQuery(this).closest('div.section');
    // console.log("selected root",$section)
     var $data = $section.find('div.title')
-    //console.log("selected data",$data[0].innerText)//Sgeorge
+    //console.log("selected data",$data[0].innerText)// 
 
     var $items = $section.find('div.item');
     var keys = [];
@@ -953,7 +953,7 @@ for(var cc=0;cc<nodeItems.length;cc++)
 
     //console.log("remove selected ",parentNode)
 
-    //Sgeorge
+    // 
     var key = Util.getKey(parentNode);
     self.keysToRemove.push(key);
 
@@ -963,7 +963,7 @@ for(var cc=0;cc<nodeItems.length;cc++)
 
   });
 };
-//#sgeorge
+//# 
 Tree.prototype.updateSelectedAndOnChange = function () {
   var self = this;
   this.$selectionContainer.on('click', 'input.option[type=checkbox]', function () {
@@ -1001,7 +1001,7 @@ Tree.prototype.updateSelectedAndOnChange = function () {
     });
   }
 };
-//#sgeorge
+//# 
 Tree.prototype.render = function (noCallbacks) {
   var _selectedKeys,
       _this = this;
@@ -1040,7 +1040,7 @@ var rootRemoved=false;
   for (var ii = 0; ii < this.keysToRemove.length; ++ii) {
     // remove the selected divs
     var node = this.selectedNodes[this.keysToRemove[ii]];
-    //console.log("Sgeorge selected nodes removed",node)
+    //console.log("  selected nodes removed",node)
     if (node) {
        console.log(this.sectionsValues,node)
       console.log("remove node",node);
@@ -1156,7 +1156,7 @@ this.removeSectionCreatedInRoot(nodename)
     console.log("keysss to add",this.keysToAdd)
     // this.selectSections
    
-   var option = this.selectOptions[key];//To be commneted Sgeorge     this.selectOptions[key]
+   var option = this.selectOptions[key];//To be commneted       this.selectOptions[key]
    var rootIncluded=false;
    var itemsKeys;
    var rootName;
@@ -1538,7 +1538,7 @@ exports.createNode = function (tag, props) {
   return node;
 };
 
-//#sgeorge
+//# 
 exports.createSelection = function (option, treeId, createCheckboxes, disableCheckboxes) {
 
   var props = {
@@ -1558,7 +1558,7 @@ exports.createSelection = function (option, treeId, createCheckboxes, disableChe
 
   if (hasDescription) {
     var popup = exports.createNode('span', { class: 'description', text: '?' });
-   // selectionNode.appendChild(popup);// sgeorge
+   // selectionNode.appendChild(popup);//  
   }
   if (!createCheckboxes) {
     selectionNode.innerText = option.text || option.value;
@@ -1585,7 +1585,7 @@ exports.createSelection = function (option, treeId, createCheckboxes, disableChe
 //console.log("selected node",selectionNode)
   return selectionNode;
 };
-//#sgeorge
+//# 
 exports.createSelected = function (option,rootName, disableRemoval, showSectionOnSelected,rootIncluded,itemsKeys) {
 
 // console.log("root include",rootIncluded)
@@ -1620,7 +1620,7 @@ else
   }
 
   if (showSectionOnSelected) {
-    var sectionSpan = exports.createNode('span', { class: 'section-name', text: option.description });  //Here To append the description .. SGeorge
+    var sectionSpan = exports.createNode('span', { class: 'section-name', text: option.description });  //Here To append the description ..  
 
     node.appendChild(sectionSpan);
 
@@ -1628,7 +1628,7 @@ else
   return node;
 
 };
-//#sgeorge
+//# 
 exports.createSection = function (sectionName, sectionId, createCheckboxes, disableCheckboxes) {
   var sectionNode = exports.createNode('div', { class: 'section', 'data-key': sectionId });
 
