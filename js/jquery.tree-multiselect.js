@@ -531,6 +531,72 @@ var sections=this.sectionsValues;
    console.log("global items",items)
    return items;
 };
+
+
+Tree.prototype.checkGlobalSelected = function (rootName) {
+
+};
+
+Tree.prototype.removeItemsInRoot = function (sectionRoot,globalSelection) {
+
+
+  for(var gg=0;gg<this.sectionsValues[sectionRoot].length;gg++)
+{
+if(this.sectionsValues[sectionRoot][gg].type!=undefined && this.sectionsValues[sectionRoot][gg].type=="section")
+{
+  for(var io=0;io<this.sectionsValues[sectionRoot][gg].items.length;io++)
+  {
+  var itemId=this.sectionsValues[sectionRoot][gg].items[io].id;
+    var node = this.selectedNodes[itemId];
+    ////Here should remove ..
+
+    console.log("KKKKKKK",this.sectionsValues[sectionRoot][gg].items[io].id)
+
+   if(node!=undefined && node.parentNode!=null)
+    node.parentNode.removeChild(node);
+
+  }
+
+var _node = this.selectedNodes[this.sectionsValues[sectionRoot][gg].name];
+console.log("selectedddd Root",_node)
+   if(_node!=undefined && _node.parentNode!=null)
+    _node.parentNode.removeChild(_node);
+    
+    console.log("selected node",this.sectionsValues[sectionRoot][gg].name)
+    this.selectedNodes[this.sectionsValues[sectionRoot][gg].name]=null;
+
+    this.selectedRoots[this.sectionsValues[sectionRoot][gg].name]="unselected"
+    this.selectSections[this.sectionsValues[sectionRoot][gg].name]=null;
+
+}
+else
+{
+    var itemId=this.sectionsValues[sectionRoot][gg].id;
+    var node = this.selectedNodes[itemId];
+// //Here should remove ..
+   if(node!=undefined && node.parentNode!=null)
+    node.parentNode.removeChild(node);
+}
+
+if(globalSelection)
+{
+  var _node=this.selectedNodes[sectionRoot]
+   if(_node!=undefined && _node.parentNode!=null)
+    _node.parentNode.removeChild(_node);
+}
+
+  }
+
+
+
+
+};
+
+
+
+
+
+
 Tree.prototype.deSelectSections = function (rootName) {
 
 };
@@ -1091,13 +1157,14 @@ if(nodeItems!=undefined)
     this.selectedKeys.push(key);
     this.checkNodesAreInRoot(key)
 
-    console.log(rootNode)
+    console.log(rootNode,key,"KEYSSS")
     //console.log(this.keysToRemove,this.selectedKeys)
 
     if(!rootNode)
     {
     var selectedNode = Util.dom.createSelected(option,"", this.params.freeze, this.params.showSectionOnSelected,rootIncluded,itemsKeys);
     this.selectedNodes[option.id] = selectedNode;
+
     console.log("node Created",selectedNode,this.selectedRoots)
     }
     else
@@ -1108,23 +1175,23 @@ if(nodeItems!=undefined)
        {
        rootIncluded=true;
        var selectedNode = Util.dom.createSelected(option,rootName, this.params.freeze, this.params.showSectionOnSelected,rootIncluded,itemsKeys);
-      }
+       }
       else
       {
-            var selectedNode = Util.dom.createSelected(option,"", this.params.freeze, this.params.showSectionOnSelected,rootIncluded,itemsKeys);
+      var selectedNode = Util.dom.createSelected(option,"", this.params.freeze, this.params.showSectionOnSelected,rootIncluded,itemsKeys);
       }
+     }
 
-       }
     }
 
     if(rootIncluded && rootIncludeIndex==0)
     {
       rootIncludeIndex++;
       this.selectedNodes[rootName] = selectedNode;
-      this.$selectedContainer.append(selectedNode);
-      
-      console.log("append container",selectedNode.parentNode)
-      selectedNode.parentNode.removeChild(selectedNode);
+     
+      // this.$selectedContainer.append(selectedNode);
+      // console.log("append container",selectedNode.parentNode)
+      // selectedNode.parentNode.removeChild(selectedNode);
 
     }
     else if(rootIncludeIndex!=0)
@@ -1132,9 +1199,10 @@ if(nodeItems!=undefined)
     }
     else
     {
-        this.$selectedContainer.append(selectedNode);
-        console.log("append container again")
+      console.log("#%",selectedNode)
 
+      if(!rootNode)
+      this.$selectedContainer.append(selectedNode);
     }
 
 
@@ -1157,48 +1225,20 @@ for(var sectionRoot in this.sectionsValues)
 {
   if(this.sectionsValues[sectionRoot]!=undefined)
   {
-
   if(roots[sectionRoot]=="selected")
   {
     console.log("start remove",sectionRoot+"items",this.sectionsValues[sectionRoot]," items")
-for(var gg=0;gg<this.sectionsValues[sectionRoot].length;gg++)
-{
+    if(sectionRoot=="Global")
+       {
+         console.log("OOOOOOO",this.sectionsValues[sectionRoot])
+         for(var bb=0;bb<this.sectionsValues[sectionRoot].length;bb++)
+             this.removeItemsInRoot(this.sectionsValues[sectionRoot][bb].name,true);
 
-if(this.sectionsValues[sectionRoot][gg].type!=undefined && this.sectionsValues[sectionRoot][gg].type=="section")
-{
-  for(var io=0;io<this.sectionsValues[sectionRoot][gg].items.length;io++)
-  {
-  var itemId=this.sectionsValues[sectionRoot][gg].items[io].id;
-    var node = this.selectedNodes[itemId];
-// //Here should remove ..
-   if(node!=undefined && node.parentNode!=null)
-    node.parentNode.removeChild(node);
+       }
+       else 
+          this.removeItemsInRoot(sectionRoot,false);
 
-  }
-
-var _node = this.selectedNodes[this.sectionsValues[sectionRoot][gg].name];
-console.log("selectedddd Root",_node)
-   if(_node!=undefined && _node.parentNode!=null)
-    _node.parentNode.removeChild(_node);
-    
-    console.log("selected node",this.sectionsValues[sectionRoot][gg].name)
-    this.selectedNodes[this.sectionsValues[sectionRoot][gg].name]=null;
-
-    this.selectedRoots[this.sectionsValues[sectionRoot][gg].name]="unselected"
-    this.selectSections[this.sectionsValues[sectionRoot][gg].name]=null;
-
-}
-else
-{
-    var itemId=this.sectionsValues[sectionRoot][gg].id;
-    var node = this.selectedNodes[itemId];
-// //Here should remove ..
-   if(node!=undefined && node.parentNode!=null)
-    node.parentNode.removeChild(node);
-}
-
-  }
-
+  
 if(this.sectionCreated!=undefined)
 {
 if(this.sectionCreated[sectionRoot]==null)
@@ -1224,7 +1264,7 @@ else
 }
 //Created..
 
-
+console.log("selectedRoots",this.selectedRoots)
 
 
 
