@@ -1,8 +1,8 @@
 
 /* jQuery Tree Multiselect v2.2.1 | (c) Patrick Tsai | MIT Licensed */
 div.tree-multiselect {
-  border: 2px solid #D8D8D8;
-  border-radius: 5px;
+  border: 0px solid #D8D8D8;
+  border-radius: 0px;
   display: table;
   height: inherit;
   width: 100%; }
@@ -17,7 +17,7 @@ div.tree-multiselect {
     padding: 1%;
     width: 50%; }
   div.tree-multiselect > div.selections {
-    border-right: solid 2px #D8D8D8; }
+    border-right: solid 0px #D8D8D8; }
     div.tree-multiselect > div.selections div.item {
       margin-left: 16px; }
       div.tree-multiselect > div.selections div.item label {
@@ -25,8 +25,8 @@ div.tree-multiselect {
     div.tree-multiselect > div.selections.no-border {
       border-right: none; }
   div.tree-multiselect > div.selected > div.item {
-    padding: 2px 5px;
-    border-radius: 2px;
+    padding: 0px 0px;
+    border-radius: 0px;
     background: #EAEAEA; }
   div.tree-multiselect > div.selected.ui-sortable > div.item:hover {
     cursor: move; }
