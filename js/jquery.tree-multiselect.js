@@ -532,7 +532,39 @@ var sections=this.sectionsValues;
    return items;
 };
 
+Tree.prototype.removeSectionCreatedInRoot = function (rootName) {
+var sections=this.sectionsValues;
+   if(sections[rootName]!=undefined)
+   {
+     if(rootName=="Global")
+     {
+     for(var nn=0;nn<sections[rootName].length;nn++)
+     {
+    this.sectionCreated[sections[rootName][nn].name]=null;  
 
+    for(var hh=0;hh<sections[rootName][nn].items.length;hh++)
+    {
+         console.log("Created ",rootName ,sections[rootName][nn].items[hh].name)
+
+      if(sections[rootName][nn].items[hh].name!=undefined)
+          this.sectionCreated[sections[rootName][nn].items[hh].name]=null;  
+    }
+     }
+
+     }
+     else 
+     {
+     for(var uu=0;uu<sections[rootName].length;uu++)
+     {
+      this.sectionCreated[sections[rootName][uu].name]=null;
+     }
+     }
+
+   }
+   console.log(this.sectionCreated,"Created Section")
+
+
+};
 Tree.prototype.checkGlobalSelected = function (rootName) {
 
 };
@@ -564,7 +596,6 @@ console.log("selectedddd Root",_node)
     
     console.log("selected node",this.sectionsValues[sectionRoot][gg].name)
     this.selectedNodes[this.sectionsValues[sectionRoot][gg].name]=null;
-
     this.selectedRoots[this.sectionsValues[sectionRoot][gg].name]="unselected"
     this.selectSections[this.sectionsValues[sectionRoot][gg].name]=null;
 
@@ -573,16 +604,25 @@ else
 {
     var itemId=this.sectionsValues[sectionRoot][gg].id;
     var node = this.selectedNodes[itemId];
-// //Here should remove ..
+   
+    //Here should remove ..
    if(node!=undefined && node.parentNode!=null)
+   {
     node.parentNode.removeChild(node);
+    this.selectedNodes[itemId]=null;
+   }
+
 }
 
 if(globalSelection)
 {
   var _node=this.selectedNodes[sectionRoot]
    if(_node!=undefined && _node.parentNode!=null)
+   {
     _node.parentNode.removeChild(_node);
+    this.selectedNodes[sectionRoot]=null;
+
+   }
 }
 
   }
@@ -1029,12 +1069,13 @@ if(nodeItems!=undefined)
 
          this.selectSections[nodename]=null;
          this.selectedRoots[nodename]="unselected";
+        this.sectionCreated[nodename]=null;
+
          console.log("node to remove ",node,node.parentNode,nodeKey)
 
-          node.parentNode.removeChild();
+         node.parentNode.removeChild();
 
-
-     // console.log("Sectionsssss after remove",this.selectSections)
+         //console.log("Sectionsssss after remove",this.selectSections)
 
       }
 }
@@ -1066,30 +1107,21 @@ if(nodeItems!=undefined)
      
 
        console.log(this.selectedRoots,this.rootsToRemove,"selectedd roootttss")
-      //    if (this.selectedRoots[this.rootsToRemove[0]]=="unselected")
-      //   {
-      //    var _node = this.selectedNodes[this.rootsToRemove[0]];
 
-      //     console.log(_node,_node.parentNode,"????")
-      //   _node.parentNode.removeChild(_node);
-      //   this.selectedNodes[parseInt(this.keysToRemove[ii])] = null;
-      //   console.log("if..")
-      //    // console.log(this.selectedRoots)
-      // }
-     // else 
-    //  {
         console.log("else..",node)
         console.log(this.rootsToRemove.length,"length",this.keysToRemove)
         if(node.parentNode!=null)
           node.parentNode.removeChild(node);
 
         this.selectedNodes[this.keysToRemove[ii]] = null;
-    //  }
+
 
        }
 
     }
 
+
+this.removeSectionCreatedInRoot(nodename)
     //uncheck these checkboxes
 
     var selectionNode = this.selectNodes[parseInt(this.keysToRemove[ii])];
@@ -1227,7 +1259,7 @@ for(var sectionRoot in this.sectionsValues)
   {
   if(roots[sectionRoot]=="selected")
   {
-    console.log("start remove",sectionRoot+"items",this.sectionsValues[sectionRoot]," items")
+    console.log("start remove ",roots,sectionRoot+"items",this.sectionsValues[sectionRoot]," items")
     if(sectionRoot=="Global")
        {
          console.log("OOOOOOO",this.sectionsValues[sectionRoot])
@@ -1241,6 +1273,7 @@ for(var sectionRoot in this.sectionsValues)
   
 if(this.sectionCreated!=undefined)
 {
+  console.log(this.sectionCreated,"sectioncreated")
 if(this.sectionCreated[sectionRoot]==null)
 {
 
