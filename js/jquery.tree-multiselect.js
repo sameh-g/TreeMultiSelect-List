@@ -586,7 +586,7 @@ Tree.prototype.checkSelectedResults = function (optionsSelected) {
   
   if(this.selectSections["Global"]!=null)
   {
-    this.selectedResult="Global";
+    this.selectedResult="Global,";
   }
   else 
   {
@@ -600,7 +600,8 @@ Tree.prototype.checkSelectedResults = function (optionsSelected) {
       this.selectedResult +=this.selectSections[section].section+",";
       
     }
-    }
+  }
+  
 
     for(var hh=0;hh< optionsSelected.length;hh++)
       {
@@ -609,13 +610,14 @@ Tree.prototype.checkSelectedResults = function (optionsSelected) {
          noRegions=true;
 
          console.log("noregions")
-     if(this.selectSections[section]!=undefined||this.selectSections[section]!=null)
+     if(this.selectSections!=undefined||this.selectSections!=null)
            {
     for(var section in this.selectSections)
     {
+     if(this.selectSections[section]!=undefined||this.selectSections[section]!=null)
+     {
         noRegions=false;
-      if(this.selectSections[section]!=null||this.selectSections[section]!=undefined)
-   {
+
         if(this.selectSections[section].items.indexOf(optionsSelected[hh].id) > -1)
         {
         exist=true;
@@ -629,13 +631,13 @@ Tree.prototype.checkSelectedResults = function (optionsSelected) {
         }
 
        
-    }
+    
       }
+    }
            }
       console.log("noregions",noRegions)
 
-
-        if(!exist)
+        if(!exist||noRegions)
   this.selectedResult +=optionsSelected[hh].text+","
 
     
