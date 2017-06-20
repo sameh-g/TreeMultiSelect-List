@@ -15,8 +15,18 @@
    
 <div class="container" >
 
+<div class="input-group input-group-lg"  style=" padding-top: 300px;">
+
+  <input id="txtgeography" class="form-control" type="text" placeholder="Geographical List" readonly style="background-color: white">
+    <span class="input-group-addon" data-toggle="modal" data-target="#myModal" style="cursor: pointer">
+    <i class="fa fa-location-arrow"></i>
+  </span>
+</div>
+</div> 
+
+
   <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Geographical List</button>
+  <!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Geographical List</button>-->
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog"  >
@@ -30,7 +40,7 @@
         </div>
         <div class="modal-body">
 
- <div class="wrapper" style="overflow-x: hidden ;height: 600px;width: 800px">
+ <div class="wrapper" style="overflow-x: hidden ;height: 600px;width: 800px" ">
 
 
        <select id="demo2" style="margin: 0px auto 1em; display: block;" multiple="multiple">
@@ -129,12 +139,13 @@
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <link rel="stylesheet" href="css/jquery.tree-multiselect.css">
             <link rel="stylesheet" href="css/bootstrap.min.css">
+              <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" >
             <script src="js/jquery.min.js"></script>
             <script src="js/bootstrap.min.js"></script>
             <script src="js/jquery-1.12.4.min.js" ></script>
             <script type="text/javascript" src="js/jquery-ui.min.js"></script>
             <script type="text/javascript" src="js/jquery.tree-multiselect.js"></script>
-         
+     
             <script type="text/javascript">
                 $(document).ready(function () {
                     $("select#demo2").treeMultiselect({ searchable: true, searchParams: ['section', 'text'], 
@@ -142,15 +153,14 @@
 
                 });
 
-                function treeOnChange(allSelectedItems, addedItems, removedItems) {
-                    console.log("something changed!",allSelectedItems,addedItems,removedItems);
-                }
 
-               function treeOnChange(allSelectedItems, addedItems, removedItems,selectSections) {
-                 //   manageSelection(selectSections,allSelectedItems)
+
+               function treeOnChange(allSelectedItems, addedItems, removedItems,selectSections,result) {
 
 
                    console.log("something changedaddddeddd!",selectSections,allSelectedItems);
+
+                   document.getElementById("txtgeography").placeholder = result
                 }
 
                  function manageSelection(selectSections,allSelectedItems) {

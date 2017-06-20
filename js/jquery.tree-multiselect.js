@@ -313,6 +313,7 @@ function Tree(id, $originalSelect, params) {
   this.selectOptions = [];
   this.selectSections = [];
   this.selectedView = [];
+  this.selectedResult="";
 
   this.sections=[];
   this.sectionsValues=[];
@@ -540,24 +541,33 @@ var sections=this.sectionsValues;
      {
      for(var nn=0;nn<sections[rootName].length;nn++)
      {
+    
     this.sectionCreated[sections[rootName][nn].name]=null;  
+    this.selectSections[sections[rootName][nn].name]=null;
 
     for(var hh=0;hh<sections[rootName][nn].items.length;hh++)
     {
          console.log("Created ",rootName ,sections[rootName][nn].items[hh].name)
 
       if(sections[rootName][nn].items[hh].name!=undefined)
+      {
           this.sectionCreated[sections[rootName][nn].items[hh].name]=null;  
+         this.selectedNodes[sections[rootName][nn].items[hh].name]=null;
+         this.selectSections[sections[rootName][nn].items[hh].name]=null;
+
+      }
     }
      }
-
      }
      else 
      {
+
      for(var uu=0;uu<sections[rootName].length;uu++)
      {
       this.sectionCreated[sections[rootName][uu].name]=null;
+      this.selectedNodes[sections[rootName][uu].name]=null;
      }
+
      }
 
    }
@@ -565,8 +575,82 @@ var sections=this.sectionsValues;
 
 
 };
-Tree.prototype.checkGlobalSelected = function (rootName) {
 
+
+Tree.prototype.checkSelectedResults = function (optionsSelected) {
+  
+  this.selectedResult="";
+  var countries=[];
+
+  
+  if(this.selectSections["Global"]!=null)
+  {
+    this.selectedResult="Global";
+  }
+  else 
+  {
+    if(this.selectSections!=undefined||this.selectSections!=null)
+    {
+    
+    
+    for(var section in this.selectSections)
+    {
+      
+     if(this.selectSections[section]!=undefined||this.selectSections[section]!=null)
+      this.selectedResult +=this.selectSections[section].section+",";
+      
+    }
+
+     if(this.selectSections[section]!=undefined||this.selectSections[section]!=null)
+           {
+    for(var hh=0;hh< optionsSelected.length;hh++)
+      {
+
+        var exist=false;
+    for(var section in this.selectSections)
+    {
+
+      if(this.selectSections[section]!=null)
+   {
+        if(this.selectSections[section].items.indexOf(optionsSelected[hh].id) > -1)
+        {
+        exist=true;
+        console.log("EXIST")
+        break;
+        }
+        else 
+        {
+        exist=false;
+        console.log("not EXIST")
+        }
+
+       
+    }
+
+
+      }
+
+        if(!exist)
+  this.selectedResult +=optionsSelected[hh].text+","
+
+
+    }
+      }
+
+
+    }
+
+  }
+
+  this.selectedResult = this.selectedResult.substring(0, this.selectedResult.length - 1);
+
+if(this.selectedResult=="")
+this.selectedResult="Geographical List";
+
+
+
+//else 
+//Loop to Regions and countries
 };
 
 Tree.prototype.removeItemsInRoot = function (sectionRoot,globalSelection) {
@@ -1121,7 +1205,7 @@ if(nodeItems!=undefined)
     }
 
 
-this.removeSectionCreatedInRoot(nodename)
+      this.removeSectionCreatedInRoot(nodename)
     //uncheck these checkboxes
 
     var selectionNode = this.selectNodes[parseInt(this.keysToRemove[ii])];
@@ -1241,11 +1325,7 @@ this.removeSectionCreatedInRoot(nodename)
 
 //Remove here
     var roots =this.selectedRoots;
-for(var section in roots)
-{
-  // if(roots[section]=="selected")
-  // console.log("found",section);
-}
+
 
 
    console.log(this.selectedRoots,"****roots***",this.selectedNodes)
@@ -1264,7 +1344,11 @@ for(var sectionRoot in this.sectionsValues)
        {
          console.log("OOOOOOO",this.sectionsValues[sectionRoot])
          for(var bb=0;bb<this.sectionsValues[sectionRoot].length;bb++)
-             this.removeItemsInRoot(this.sectionsValues[sectionRoot][bb].name,true);
+         {
+               this.removeItemsInRoot(this.sectionsValues[sectionRoot][bb].name,true);
+               this.selectSections[this.sectionsValues[sectionRoot][bb].name]=null;
+               console.log("DATADATA",this.sectionsValues[sectionRoot][bb].name)
+         }
 
        }
        else 
@@ -1274,6 +1358,7 @@ for(var sectionRoot in this.sectionsValues)
 if(this.sectionCreated!=undefined)
 {
   console.log(this.sectionCreated,"sectioncreated")
+
 if(this.sectionCreated[sectionRoot]==null)
 {
 
@@ -1369,7 +1454,9 @@ rootIncludeIndex=0;
     var optionsRemoved = this.keysToRemove.map(function (key) {
       return _this.selectOptions[key];
     });
-    this.params.onChange(optionsSelected, optionsAdded, optionsRemoved,this.selectSections);
+    
+    this.checkSelectedResults(optionsSelected);
+    this.params.onChange(optionsSelected, optionsAdded, optionsRemoved,this.selectSections,this.selectedResult);
   }
 
   this.keysToRemove = [];
@@ -1614,10 +1701,13 @@ else
      text: option.text
   });
 }
+
   if (!disableRemoval) {
     var removalSpan = exports.createNode('span', { class: 'remove-selected', text: '×' });
     node.insertBefore(removalSpan, node.firstChild);
   }
+
+
 
   if (showSectionOnSelected) {
     var sectionSpan = exports.createNode('span', { class: 'section-name', text: option.description });  //Here To append the description ..  
