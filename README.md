@@ -2,7 +2,7 @@
 
 ## Getting started
 
-This a plugin which allow the user to have an opertunity to multiselect a tree and deselect tree choices based on tree hierarchy tree.
+This plugin allow the user to have an opportunity to multiselect a tree and deselect tree choices based on tree hierarchy tree.
 
 
 ![alt text](screen1.png)
