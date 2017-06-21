@@ -1463,6 +1463,8 @@ rootIncludeIndex=0;
     });
     
     this.checkSelectedResults(optionsSelected);
+
+    console.log("Sameh",this.sectionsValues)
     this.params.onChange(optionsSelected, optionsAdded, optionsRemoved,this.selectSections,this.selectedResult);
   }
 
