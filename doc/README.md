@@ -1,4 +1,4 @@
-# Geography plugin guilde 
+# Geography plugin guide 
 
 
 ## Objective 
