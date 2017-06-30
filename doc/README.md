@@ -108,7 +108,7 @@ This method only passed by previous selected items in keys format [0,1,2,3]to in
 This Method get region or territory as a parent’s code based on name. 
 
 ## Tree.prototype.checkSelectedResults = function (optionsSelected) 
-It should check all selected items and based on the below logic it returns to onchange event the actual selected region, territory and country in object with the result object as well in text, should return geography list object with the correct values selected from the plugin.
+Should return  the result  after user selections and de select items in text and set geography list object with the correct values selected from the plugin below is the gegraphy list object should return.
 
 ```shell
 
@@ -305,7 +305,7 @@ cancel()
 
 ### apply()
 
-This will update the two-way binding objects with the result from user selections in the plugin, initially call map geography data then replace all updated objects that have been filled from the treemultiselect result after onchange fire.
+This will update the two-way binding objects with the result from user selections in the plugin, initially it will call map geography data then replace all updated objects that have been filled in onchange event and keep them in previous objects in case of cancel to refresh the plugin with them after another selection.
 
 ```shell
     apply()
