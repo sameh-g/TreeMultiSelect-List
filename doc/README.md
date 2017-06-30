@@ -36,7 +36,7 @@ Search option will be in the upper left side from the plugin which is not case s
 # Getting started with plugin properties and methods
 
  ## this.selectOptions  
- should have all roots(countries) child’s listed as the below
+ should have all roots(countries) child’s listed as the below, regions,country and territory fields are code binded from the object binded.
 
  ![alt text](imgs/selectoptions.png)
   
@@ -84,7 +84,7 @@ Have all Childs in div format listed in an array which used to append the html c
 ##   this.selectedNodes 
 Have all selected nodes in the right side selected in div format to be able to unselect it by removing it from the html container.
 
- #  List of methods as a helper  
+ #  Helper Methods
 
 ## Tree.prototype.removeItemsInRoot = function (sectionRoot,globalSelection) 
   This method is used to remove Childs inside a root given by root name and flag that is global which mean all Childs needs to remove and append a global node.
@@ -307,7 +307,7 @@ cancel()
 
 ### apply()
 
-This will map the current selected object to the previous objects then will fire the ui again to avoid making search object selected.
+This will update the twoways binding objects with the result from user selections in the plugin, initially call map gography data then replace all updated objects that have been filled from the treemultiselect result after onchange fire.
 
 ```shell
     apply()
