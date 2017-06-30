@@ -61,7 +61,6 @@ This array have all the tree parents initialized with all items inside.
 
  ![alt text](imgs/geographyListResult.png)
 
-
   ## this.selectedResult 
   The result in string which printed out the selected region, territory and country or global.
 
@@ -156,7 +155,6 @@ At end of the render method the onchange event which is used outside the plugin 
 * If a user select child till reaching to the max number of the Childs inside the root or the parent, the keystoadd will filled with all Childs and every time check this.sectionsvalues that items of root is subset from the keystoadd then it will take sectionsvalues section name adding [key,value] in selecteroots by [rootname,"selected"] which mean this root selected then it will remove all Childs from right side and append the html container with a new node having parent name.
 
 ![alt text](imgs/SelectChildsTillRegion.png)
-
 
 # Apply Plugin  Component in Aurelia 
  In shared/elements/geography-list there are two main components 
@@ -307,7 +305,7 @@ cancel()
 
 ### apply()
 
-This will update the twoways binding objects with the result from user selections in the plugin, initially call map gography data then replace all updated objects that have been filled from the treemultiselect result after onchange fire.
+This will update the two-way binding objects with the result from user selections in the plugin, initially call map geography data then replace all updated objects that have been filled from the treemultiselect result after onchange fire.
 
 ```shell
     apply()
@@ -321,4 +319,5 @@ This will update the twoways binding objects with the result from user selection
 
 }
 ```
+
 
