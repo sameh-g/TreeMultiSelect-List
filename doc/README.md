@@ -18,7 +18,7 @@ The result from geography component rendering will be list of nodes that shows a
 
  ![alt text](imgs/geographyList.png)
 
-## Ability to select multible nodes till parent node 
+## Ability to select multiple nodes till parent node 
 A user can select multiple node then this nodes will be populated to the right side, case if all parent child’s selected child’s in the right side will be removed and will be replaced with the parent node.
 
  ![alt text](imgs/selectedNodesRoot.png)
